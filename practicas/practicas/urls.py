@@ -17,10 +17,32 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from inicio import views
+from django.conf import settings 
+from registros import views as views_registros
+from django.conf.urls import include
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',views.principal, name="Principal"),
-    path('contacto/',views.contacto, name="Contacto"),
+    path('',views_registros.registros, name="Principal"),
+    path('contacto/',views_registros.contacto,name="Contacto"),
     path('formulario/',views.formulario, name="Formulario"),
+    path('ejemplo/',views.ejemplo, name="Ejemplo"),
+    path('seguridad',views.seguridad,name="Seguridad"),
+	path('registrar/',views_registros.registrar,name="Registrar"),
+    path('consultas1',views_registros.consultar1,name="Consultas"),
+    path('consultas2',views_registros.consultar2,name="Consultas2"),
+    path('consultas3',views_registros.consultar3,name="Consultas3"),
+    path('consultas4',views_registros.consultar4,name="Consulta4"),
+	path('subir',views_registros.archivos,name="Subir"),
+    path('cuentas/', include('django.contrib.auth.urls')),
+	
+
+
 ]
+
+
+if settings.DEBUG:
+	from django.conf.urls.static import static
+	urlpatterns += static(settings.MEDIA_URL,
+ 			document_root=settings.MEDIA_ROOT)

@@ -1,0 +1,44 @@
+{% extends "inicio/encabezado.html" %} {% block titulo%} INICIO {% endblock%} {%
+block imagen%} {% load static%} {% static 'inicio/images/home.png'%} {% endblock
+%} {% block contenido%}
+<!-- Contenido Principal-->
+<div class="page-content">
+  <!--Encabezdo -->
+  <div class="page-header">
+    <div class="page-title">
+      <h3>Inicio <small>Sesión</small></h3>
+    </div>
+  </div>
+
+  {% if form.errors %}
+  <p>Su nombre de usuario y contraseña no coinciden. Inténtalo de nuevo.</p>
+  {% endif %} {% if next %} {% if user.is_authenticated %}
+  <p>
+    Su cuenta no tiene acceso a esta página. Para continuar, inicie sesión con
+    una cuenta que tenga acceso.
+  </p>
+  {% else %}
+  <p>Por favor inicie sesión para ver esta página.</p>
+  {% endif %} {% endif %}
+
+  <form method="post" action="{% url 'login' %}">
+    {% csrf_token %}
+    <table class="table table-bordered table-striped">
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input type="submit" value="login" />
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+
+  {# Asume que configura la vista de restablecimiento de contraseña en su
+  URLconf #}
+  <p><a href="{% url 'password_reset' %}">¿Olvidó su contraseña?</a></p>
+</div>
+{% endblock%}
